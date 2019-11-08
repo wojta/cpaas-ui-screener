@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Nav, NavList, NavItem, NavVariants, Page, PageHeader, SkipToContent, Brand } from '@patternfly/react-core';
+import { Nav, NavList, NavItem, NavVariants, Page, PageHeader, SkipToContent, Brand, Dropdown, DropdownToggle } from '@patternfly/react-core';
 import { routes } from '@app/routes';
-import pfLogo from '../../svgs/PF-Masthead-Logo.svg'
+import pfLogo from '../../svgs/PF-Masthead-Logo.svg';
+import { CaretDownIcon } from '@patternfly/react-icons';
+import './AppLayout.css';
+
 interface IAppLayout {
   children: React.ReactNode;
 }
@@ -24,20 +27,10 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   const onPageResize = (props: { mobileView: boolean; windowSize: number }) => {
     setIsMobileView(props.mobileView);
   };
-  const logo: React.ReactNode = (<Brand src={pfLogo} alt="Patternfly Logo" />);
-  const Header = (
-    <PageHeader
-      logo={logo}
-      logoProps={logoProps}
-      showNavToggle={false}
-      isNavOpen={isNavOpen}
-      onNavToggle={isMobileView ? onNavToggleMobile : onNavToggle}
-    />
-  );
-
+  const logo: React.ReactNode = <Brand src={pfLogo} alt="Patternfly Logo" />;
   const Navigation = (
     <Nav id="nav-primary-simple">
-      <NavList id="nav-list-simple" variant={NavVariants.simple}>
+      <NavList id="nav-list-simple" variant={NavVariants.horizontal}>
         {routes.map((route, idx) => {
           return (
             route.label && (
@@ -52,6 +45,26 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
       </NavList>
     </Nav>
   );
+
+  const Avatar = (
+    <Dropdown
+        isOpen={false}
+        toggle={<DropdownToggle iconComponent={CaretDownIcon} className="userName">Username</DropdownToggle>}
+      />
+  )
+
+  const Header = (
+    <PageHeader
+      logo={logo}
+      logoProps={logoProps}
+      showNavToggle={false}
+      isNavOpen={isNavOpen}
+      topNav={Navigation}
+      avatar={Avatar}
+      onNavToggle={isMobileView ? onNavToggleMobile : onNavToggle}
+    />
+  );
+
   const PageSkipToContent = <SkipToContent href="#primary-app-container">Skip to Content</SkipToContent>;
   return (
     <Page

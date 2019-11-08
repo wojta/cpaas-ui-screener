@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-
 const BG_IMAGES_DIRNAME = 'bgimages';
 
 module.exports = {
@@ -11,7 +10,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html')
-    })
+    }),
   ],
   module: {
     rules: [
@@ -32,6 +31,7 @@ module.exports = {
         // only process modules with this loader
         // if they live under a 'fonts' or 'pficon' directory
         include: [
+          path.resolve(__dirname, 'fonts'),
           path.resolve(__dirname, 'node_modules/patternfly/dist/fonts'),
           path.resolve(__dirname, 'node_modules/@patternfly/react-core/dist/styles/assets/fonts'),
           path.resolve(__dirname, 'node_modules/@patternfly/react-core/dist/styles/assets/pficon'),

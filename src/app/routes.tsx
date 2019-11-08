@@ -7,35 +7,38 @@ import { Dashboard } from '@app/Dashboard/Dashboard';
 import { NotFound } from '@app/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import { LastLocationProvider, useLastLocation } from 'react-router-last-location';
+import { Products } from './Products/Products';
+import { ProductPipelines } from './ProductPipelines/ProductPipelines';
+import { PipelineDetail } from './PipelineDetail/PipelineDetail';
 
 let routeFocusTimer: number;
 
-const getSupportModuleAsync = () => {
-  return () => import(/* webpackChunkName: 'support' */ '@app/Support/Support');
-};
+// const getSupportModuleAsync = () => {
+//   return () => import(/* webpackChunkName: 'support' */ '@app/Support/Support');
+// };
 
-const Support = (routeProps: RouteComponentProps) => {
-  const lastNavigation = useLastLocation();
-  return (
-    <DynamicImport load={getSupportModuleAsync()} focusContentAfterMount={lastNavigation !== null}>
-      {(Component: any) => {
-        let loadedComponent: any;
-        if (Component === null) {
-          loadedComponent = (
-            <PageSection aria-label="Loading Content Container">
-              <div className="pf-l-bullseye">
-                <Alert title="Loading" className="pf-l-bullseye__item" />
-              </div>
-            </PageSection>
-          );
-        } else {
-          loadedComponent = <Component.Support {...routeProps} />;
-        }
-        return loadedComponent;
-      }}
-    </DynamicImport>
-  );
-};
+// const Support = (routeProps: RouteComponentProps) => {
+//   const lastNavigation = useLastLocation();
+//   return (
+//     <DynamicImport load={getSupportModuleAsync()} focusContentAfterMount={lastNavigation !== null}>
+//       {(Component: any) => {
+//         let loadedComponent: any;
+//         if (Component === null) {
+//           loadedComponent = (
+//             <PageSection aria-label="Loading Content Container">
+//               <div className="pf-l-bullseye">
+//                 <Alert title="Loading" className="pf-l-bullseye__item" />
+//               </div>
+//             </PageSection>
+//           );
+//         } else {
+//           loadedComponent = <Component.Support {...routeProps} />;
+//         }
+//         return loadedComponent;
+//       }}
+//     </DynamicImport>
+//   );
+// };
 
 export interface IAppRoute {
   label?: string;
@@ -57,13 +60,12 @@ const routes: IAppRoute[] = [
     title: 'Main Dashboard Title'
   },
   {
-    component: Support,
+    component: Products,
     exact: true,
     icon: null,
-    isAsync: true,
-    label: 'Support',
-    path: '/support',
-    title: 'Support Page Title'
+    label: 'Pipelines',
+    path: '/products',
+    title: 'Pipelines'
   }
 ];
 
@@ -80,21 +82,14 @@ const useA11yRouteChange = (isAsync: boolean) => {
       clearTimeout(routeFocusTimer);
     };
   }, [isAsync, lastNavigation]);
-}
+};
 
-const RouteWithTitleUpdates = ({
-  component: Component,
-  isAsync = false,
-  title,
-  ...rest
-}: IAppRoute) => {
+const RouteWithTitleUpdates = ({ component: Component, isAsync = false, title, ...rest }: IAppRoute) => {
   useA11yRouteChange(isAsync);
   useDocumentTitle(title);
 
   function routeWithTitle(routeProps: RouteComponentProps) {
-    return (
-      <Component {...rest} {...routeProps} />
-    );
+    return <Component {...rest} {...routeProps} />;
   }
 
   return <Route render={routeWithTitle} />;
@@ -103,7 +98,7 @@ const RouteWithTitleUpdates = ({
 const PageNotFound = ({ title }: { title: string }) => {
   useDocumentTitle(title);
   return <Route component={NotFound} />;
-}
+};
 
 const AppRoutes = () => (
   <LastLocationProvider>
@@ -119,6 +114,12 @@ const AppRoutes = () => (
           isAsync={isAsync}
         />
       ))}
+      <Route path="/product/:id">
+        <ProductPipelines />
+      </Route>
+      <Route path="/pipeline/:product/:id">
+        <PipelineDetail />
+      </Route>
       <PageNotFound title={'404 Page Not Found'} />
     </Switch>
   </LastLocationProvider>
