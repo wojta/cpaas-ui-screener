@@ -1,0 +1,29 @@
+
+.copy-to-clipboard-multiline pre {
+  font-family: monospace;
+  background-color: #fff;
+  border-width: 1px;
+  border-color:#333;
+  border-style:solid;
+  line-height: 0;
+  counter-reset: line;
+  display: flex;
+  flex-direction: column; }
+  .copy-to-clipboard-multiline pre span {
+    display: block;
+    line-height: 1.5rem; }
+    .copy-to-clipboard-multiline pre span:before {
+      counter-increment: line;
+      content: counter(line);
+      display: inline-block;
+      border-right: 1px solid #ddd;
+      padding: 0 .5em;
+      margin-right: .5em;
+      color: #333;
+      background: #ebebeb;
+      min-width: 40px; }
+  .copy-to-clipboard-multiline pre .pre-rest {
+    width: 40px;
+    flex-grow: 1;
+    background: #ebebeb;
+    border-right: 1px solid #ddd; }

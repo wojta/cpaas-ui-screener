@@ -1,0 +1,8 @@
+.progress-invalid {
+  --pf-c-progress__indicator--BackgroundColor:#4d5258;
+}
+
+.progress-ok {
+  --pf-c-progress__indicator--BackgroundColor:#509149;
+  --pf-c-progress__bar--BackgroundColor: #0066cc;
+}

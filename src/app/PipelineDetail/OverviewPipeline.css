@@ -1,0 +1,11 @@
+.lowerSize h6 {
+  --pf-c-content--h6--FontSize:0.8rem;
+}
+
+.lowerSize p {
+  font-size:0.8rem;
+}
+
+.bottomPadding {
+  margin-bottom: 2em;
+}
